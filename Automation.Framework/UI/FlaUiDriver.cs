@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Definitions;
+using FlaUI.UIA3;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Definitions;
 
 namespace Automation.Framework.UI
 {
@@ -12,12 +13,15 @@ namespace Automation.Framework.UI
     {
         private readonly AutomationElement _mainWindow;
         private readonly IDictionary<string, string> _uiMap;
+        private readonly UIA3Automation _automation;
 
-        public FlaUiDriver(AutomationElement mainWindow, IDictionary<string, string> uiMap)
+        public FlaUiDriver(AutomationElement mainWindow, IDictionary<string, string> uiMap, UIA3Automation automation)
         {
             _mainWindow = mainWindow;
             _uiMap = uiMap;
+            _automation = automation;
         }
+
 
         private AutomationElement Find(string logicalName)
         {
@@ -53,5 +57,10 @@ namespace Automation.Framework.UI
             item?.Select();
         }
 
+        public bool IsVisible(string logicalName)
+        {
+            var element = Find(logicalName);
+            return element != null && element.IsVisible;
+        }
     }
 }

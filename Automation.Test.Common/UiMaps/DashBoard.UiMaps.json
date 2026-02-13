@@ -1,0 +1,7 @@
+﻿{
+	"OpenLoginButton": "BTN_OPEN_LOGIN",
+	"AccessTypeCombo": "CMB_ACCESS_TYPE",
+	"PasswordTextBox": "TXT_PASSWORD",
+	"ConfirmLoginButton": "BTN_CONFIRM_LOGIN",
+	"LoginStatusLabel": "LBL_LOGIN_STATUS"
+}

@@ -1,0 +1,33 @@
+﻿{
+  "TestName": "Login Flow - Admin",
+  "Steps": [
+    {
+      "Action": "Click",
+      "Target": "OpenLoginButton"
+    },
+    {
+      "Action": "SelectCombo",
+      "Target": "AccessTypeCombo",
+      "Value": "Admin"
+    },
+    {
+      "Action": "SetText",
+      "Target": "PasswordTextBox",
+      "Value": "1234"
+    },
+    {
+      "Action": "Click",
+      "Target": "ConfirmLoginButton"
+    },
+    {
+      "Action": "ValidateText",
+      "Target": "LoginStatusLabel",
+      "Expected": "Logged In"
+    }
+    {
+      "Action": "WaitForVisible",
+      "Target": "LoginPopup",
+      "TimeoutMs": 5000
+    }
+  ]
+}

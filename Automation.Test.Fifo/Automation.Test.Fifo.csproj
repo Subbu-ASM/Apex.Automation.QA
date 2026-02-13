@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSTest.Sdk/3.6.4">
+<Project Sdk="MSTest.Sdk/3.6.4">
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
@@ -23,18 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FlaUI.Core" Version="5.0.0" />
-    <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Automation.Framework\Automation.Framework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestCases\" />
     <Folder Include="TestResults\" />
+    <Folder Include="TestCases\" />
     <Folder Include="UiMaps\" />
   </ItemGroup>
 

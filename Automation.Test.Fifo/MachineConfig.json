@@ -1,0 +1,8 @@
+﻿{
+  "MachineName": "Fifo",
+  "AppPath": "C:\\Machines\\Fifo\\Fifo.exe",
+  "UiMapPath": "UiMaps\\Fifo.UiMap.json",
+  "TestCaseRoot": "TestCases\\Fifo",
+  "LogPath": "C:\\MachineLogs\\Fifo.log",
+  "ResultRoot": "TestResults"
+}

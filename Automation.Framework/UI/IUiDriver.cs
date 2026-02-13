@@ -6,16 +6,23 @@ using System.Threading.Tasks;
 
 namespace Automation.Framework.UI
 {
-  
-        public interface IUiDriver
-        {
-            void Click(string logicalName);
-            string ReadText(string logicalName);
-            bool IsEnabled(string logicalName);
 
-            void SetText(string logicalName, string text);
-            void SelectCombo(string logicalName, string itemText);
-        }
+    public interface IUiDriver
+    {
+        void Click(string logicalName);
 
+        string ReadText(string logicalName);
+
+        bool IsEnabled(string logicalName);
+
+        void SetText(string logicalName, string text);
+
+        void SelectCombo(string logicalName, string itemText);
+
+        bool IsVisible(string logicalName);
+
+        void CaptureScreenshot(string filePath);
     }
+
+}
 

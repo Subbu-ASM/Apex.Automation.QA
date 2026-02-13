@@ -18,8 +18,22 @@ namespace Automation.Framework.Core
             switch (step.Action)
             {
                 case "Click":
-                    _ui.Click(step.Target);
-                    break;
+                    {
+                        _ui.Click(step.Target);
+                        break;
+                    }
+
+                case "SetText":
+                    {
+                        _ui.SetText(step.Target, step.Value);
+                        break;
+                    }
+
+                case "SelectCombo":
+                    {
+                        _ui.SelectCombo(step.Target, step.Value);
+                        break;
+                    }
 
                 case "ValidateText":
                     {
@@ -41,6 +55,18 @@ namespace Automation.Framework.Core
                             throw new InvalidOperationException(
                                 $"ValidateEnabled failed for '{step.Target}'. Expected: '{expected}', Actual: '{enabled}'");
                         }
+                        break;
+                    }
+
+                case "WaitForVisible":
+                    {
+                        WaitHelper.Until(() => _ui.IsVisible(step.Target), step.TimeoutMs);
+                        break;
+                    }
+
+                case "WaitForLog":
+                    {
+                        _logWatcher.WaitFor(step.Value, step.TimeoutMs);
                         break;
                     }
 

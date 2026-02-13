@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Automation.Framework.Core; 
+using Automation.Framework.Logging;
+using Automation.Framework.Models;
+using Automation.Framework.UI;   
 using FlaUI.Core;               
 using FlaUI.UIA3;               
-using Automation.Framework.Core; 
-using Automation.Framework.UI;   
-using Automation.Framework.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace Automation.Test.Common
 {
@@ -15,42 +16,71 @@ namespace Automation.Test.Common
             private StepEngine _engine;
 
             [TestInitialize]
-            public void Setup()
+        public void Setup()
+        {
+            // 1️⃣ Load machine config (per project)
+            var machineConfig = MachineConfigLoader.Load("MachineConfig.json");
+
+            // 2️⃣ Launch machine-specific WPF app
+            _app = Application.Launch(machineConfig.AppPath);
+            _automation = new UIA3Automation();
+            var mainWindow = _app.GetMainWindow(_automation);
+
+            // 3️⃣ Load UiMap.json
+            var uiMapJson = File.ReadAllText(machineConfig.UiMapPath);
+            var uiMap = JsonSerializer.Deserialize<Dictionary<string, string>>(uiMapJson)
+                        ?? throw new InvalidOperationException("UiMap.json invalid");
+
+            // 4️⃣ Init UI driver + engine
+            var uiDriver = new FlaUiDriver(mainWindow, uiMap, _automation);
+            _engine = new StepEngine(uiDriver);
+
+            // 5️⃣ Init log watcher (if you use it)
+            _logWatcher = new AppLogWatcher(machineConfig.LogPath);
+
+            // 6️⃣ Prepare TestCase root + result folder
+            _testCaseRoot = machineConfig.TestCaseRoot;
+
+            _runFolder = Path.Combine(machineConfig.ResultRoot,
+                $"{machineConfig.MachineName}_{DateTime.Now:yyyyMMdd_HHmmss}");
+
+            Directory.CreateDirectory(_runFolder);
+            Directory.CreateDirectory(Path.Combine(_runFolder, "screenshots"));
+        }
+
+        [TestMethod]
+    
+        public void Login_From_Json_Test()
+        {
+            var testCasePath = Path.Combine(_testCaseRoot, "LoginFlow.json");
+            var testCase = TestCaseLoader.Load(testCasePath);
+
+            int stepIndex = 0;
+
+            foreach (var step in testCase.Steps)
             {
-                _app = Application.Launch(@"C:\Path\To\Your\WpfApp.exe");
-                _automation = new UIA3Automation();
-
-                var mainWindow = _app.GetMainWindow(_automation);
-
-                var uiMap = new Dictionary<string, string>
-            {
-                 { "OpenLoginButton", "BTN_OPEN_LOGIN" },
-                 { "AccessTypeCombo", "CMB_ACCESS_TYPE" },
-                 { "PasswordTextBox", "TXT_PASSWORD" },
-                 { "ConfirmLoginButton", "BTN_CONFIRM_LOGIN" },
-                 { "LoginStatusLabel", "LBL_LOGIN_STATUS" }
-            };
-
-                var uiDriver = new FlaUiDriver(mainWindow, uiMap);
-                _engine = new StepEngine(uiDriver);
-            }
-
-            [TestMethod]
-            public void Click_Start_Button()
-            {
-                _engine.Execute(new Automation.Framework.Models.TestStep
+                try
                 {
-                    Action = "Click",
-                    Target = "StartButton"
-                });
-            }
+                    _engine.Execute(step);
+                    stepIndex++;
+                }
+                catch
+                {
+                    var screenshotPath = Path.Combine(_runFolder, "screenshots",
+                        $"LoginFlow_Step{stepIndex}_{DateTime.Now:HHmmss}.png");
 
-            [TestCleanup]
-            public void Cleanup()
-            {
-                _automation.Dispose();
-                _app.Close();
+                    _uiDriver.CaptureScreenshot(screenshotPath);
+                    throw;
+                }
             }
+        }
+
+        [TestCleanup]
+                public void Cleanup()
+                {
+                    _automation.Dispose();
+                    _app.Close();
+                }
         }
     
 }
