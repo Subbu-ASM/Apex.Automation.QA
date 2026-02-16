@@ -1,8 +1,8 @@
 ﻿{
-  "MachineName": "2DBarcode",
-  "AppPath": "C:\\Machines\\2DBarcode\\2DBarcode.exe",
-  "UiMapPath": "UiMaps\\2DBarcode.UiMap.json",
-  "TestCaseRoot": "TestCases\\2DBarcode",
-  "LogPath": "C:\\MachineLogs\\2DBarcode.log",
-  "ResultRoot": "TestResults"
+    "MachineName": "DEV_PC",
+    "AppPath": "C:\\NewClone\\apex\\UI\\bin\\Debug\\net8.0-windows8.0",
+    "UiMapPath": "UiMaps\\UiMap.json",
+    "TestCaseRoot": "TestCases",
+    "ResultRoot": "Results",
+    "LogPath": "Logs\\app.log"
 }

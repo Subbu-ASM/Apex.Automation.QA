@@ -14,10 +14,18 @@
 
   <ItemGroup>
     <None Remove="MachineConfig.json" />
+    <None Remove="TestCases\LoginFlow_Admin.json" />
+    <None Remove="UiMaps\UiMap.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="MachineConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestCases\LoginFlow_Admin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UiMaps\UiMap.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -30,12 +38,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Automation.Framework\Automation.Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestCases\" />
-    <Folder Include="TestResults\" />
-    <Folder Include="UiMaps\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,10 @@
+{
+    "TestName": "Login Admin Flow",
+    "Page": "LoginPage",
+    "Steps": [
+        {
+            "Action": "Click",
+            "Target": "LoginButton"
+        }
+    ]
+}

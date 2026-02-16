@@ -15,7 +15,6 @@
   <ItemGroup>
     <None Remove="active-machine.json" />
     <None Remove="TestCases\LoginFlow.json" />
-    <None Remove="UiMaps\DashBoard.UiMaps.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +24,7 @@
     <Content Include="TestCases\LoginFlow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="UiMaps\DashBoard.UiMaps.json">
+    <Content Include="UiMaps\UiMap.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
