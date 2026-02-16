@@ -1,6 +1,4 @@
-﻿using Automation.Framework.Logging;
-using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Capturing;
+﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using System;
@@ -27,15 +25,8 @@ namespace Automation.Framework.UI
 
         private AutomationElement Find(string logicalName)
         {
-            if (!_uiMap.TryGetValue(logicalName, out var automationId))
-                throw new KeyNotFoundException($"UI Map does not contain key '{logicalName}'");
-
-            var element = _mainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
-
-            if (element == null)
-                throw new InvalidOperationException($"UI element '{logicalName}' not found (AutomationId: {automationId})");
-
-            return element;
+            var automationId = _uiMap[logicalName];
+            return _mainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
         }
 
         public void Click(string logicalName)
@@ -57,6 +48,7 @@ namespace Automation.Framework.UI
             var element = Find(logicalName);
             element.AsTextBox()?.Enter(text);
         }
+
         public void SelectCombo(string logicalName, string itemText)
         {
             var combo = Find(logicalName).AsComboBox();
@@ -64,16 +56,11 @@ namespace Automation.Framework.UI
             var item = combo.Items.FirstOrDefault(i => i.Text == itemText);
             item?.Select();
         }
-        public void CaptureScreenshot(string filePath)
-        {
-            var screenshot = Capture.MainScreen();
-            screenshot.ToFile(filePath);
-        }
+
         public bool IsVisible(string logicalName)
         {
             var element = Find(logicalName);
-            // An element is considered visible if it is not offscreen
-            return element != null && !element.IsOffscreen;
+            return element != null && element.IsVisible;
         }
     }
 }

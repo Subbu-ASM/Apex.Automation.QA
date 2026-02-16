@@ -3,8 +3,7 @@ using Automation.Framework.Logging;
 using Automation.Framework.Models;
 using Automation.Framework.UI;   
 using FlaUI.Core;               
-using FlaUI.UIA3;
-using System.Text.Json;
+using FlaUI.UIA3;               
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
@@ -15,10 +14,6 @@ namespace Automation.Test.Common
             private Application _app;
             private UIA3Automation _automation;
             private StepEngine _engine;
-            private AppLogWatcher _logWatcher; // Add this field
-            private string _testCaseRoot;
-            private string _runFolder;
-            private FlaUiDriver _uiDriver; // Add this field
 
             [TestInitialize]
         public void Setup()
@@ -37,9 +32,11 @@ namespace Automation.Test.Common
                         ?? throw new InvalidOperationException("UiMap.json invalid");
 
             // 4️⃣ Init UI driver + engine
-            _uiDriver = new FlaUiDriver(mainWindow, uiMap, _automation);
-            _logWatcher = new AppLogWatcher(machineConfig.LogPath); // Ensure this is initialized before StepEngine
-            _engine = new StepEngine(_uiDriver, _logWatcher);
+            var uiDriver = new FlaUiDriver(mainWindow, uiMap, _automation);
+            _engine = new StepEngine(uiDriver);
+
+            // 5️⃣ Init log watcher (if you use it)
+            _logWatcher = new AppLogWatcher(machineConfig.LogPath);
 
             // 6️⃣ Prepare TestCase root + result folder
             _testCaseRoot = machineConfig.TestCaseRoot;
