@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Automation.Framework\Automation.Framework.csproj" />
+    <ProjectReference Include="..\Automation.Test.Common\Automation.Test.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
