@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlaUI.Core.Capturing;
 
 namespace Automation.Framework.UI
 {
@@ -22,6 +23,7 @@ namespace Automation.Framework.UI
         bool IsVisible(string logicalName);
 
         void CaptureScreenshot(string filePath);
+
     }
 
 }
