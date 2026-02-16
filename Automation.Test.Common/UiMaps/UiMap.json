@@ -1,0 +1,10 @@
+﻿{
+	"Pages": {
+		"LoginPage": {
+			"OpenLoginButton": "btnLogin",
+			"PasswordTextBox": "txtPassword",
+			"ConfirmLoginButton": "btnConfirm",
+			"LoginStatusLabel": "lblStatus"
+		}
+	}
+}
