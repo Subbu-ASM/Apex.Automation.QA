@@ -7,6 +7,7 @@ using Automation.Framework.Data.Json;
 using Automation.Framework.Data.Models;
 using Automation.Framework.Engine;
 using Automation.Framework.UI.Driver;
+using Automation.Framework.Reporting;
 using FlaUI.Core;
 using FlaUI.UIA3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -58,15 +59,51 @@ namespace Automation.Test._2DBarcode.Tests
                 CurrentPage = "LoginPage"
             };
 
-            // 8️⃣ Execute Test
+            // 8 Execute Test
             var engine = new TestEngine(context);
             var result = engine.Execute(testCase);
 
-            // 9️⃣ Assert Result
-            Assert.IsTrue(
-             result.IsPassed,
-                result.Message ?? "Test failed due to internal error"
-                );
+            //  Run details
+            string runId = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string machineName = Environment.MachineName;
+            string testSuite = "Login";
+
+            //  Results folder
+            Directory.CreateDirectory("Results");
+
+            string csvPath = Path.Combine("Results", "TestResults.csv");
+
+            //  Write CSV
+            CsvResultWriter.AppendResult(
+                csvPath,
+                runId,
+                machineName,
+                testSuite,
+                result);
+
+            //  Maintain counters (static for demo, later can be global)
+            int total = 1;
+            int passed = result.IsPassed ? 1 : 0;
+            int failed = result.IsPassed ? 0 : 1;
+
+            //  Generate HTML summary
+            string htmlPath = Path.Combine("Results", "Summary.html");
+
+            HtmlSummaryReport.Generate(
+                htmlPath,
+                total,
+                passed,
+                failed);
+
+            //  Auto open summary
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = htmlPath,
+                UseShellExecute = true
+            });
+
+            //  Final assert
+            Assert.IsTrue(result.IsPassed, result.Message);
         }
     }
 }
