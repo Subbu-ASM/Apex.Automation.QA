@@ -15,7 +15,6 @@
   <ItemGroup>
     <None Remove="MachineConfig.json" />
     <None Remove="TestCases\LoginFlow_Admin.json" />
-    <None Remove="UiMaps\UiMap.json" />
   </ItemGroup>
 
   <ItemGroup>

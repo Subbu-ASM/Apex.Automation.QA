@@ -13,14 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="active-machine.json" />
     <None Remove="TestCases\LoginFlow.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="active-machine.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="TestCases\LoginFlow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
