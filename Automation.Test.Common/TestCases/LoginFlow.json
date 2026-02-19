@@ -2,6 +2,11 @@
   "TestName": "Login Flow - Admin",
   "Steps": [
     {
+      "Action": "WaitForVisible",
+      "Target": "MainWindow",
+      "TimeoutMs": 15000
+    },
+    {
       "Action": "Click",
       "Target": "OpenLoginButton"
     },
@@ -23,7 +28,7 @@
       "Action": "ValidateText",
       "Target": "LoginStatusLabel",
       "Expected": "Logged In"
-    }
+    },
     {
       "Action": "WaitForVisible",
       "Target": "LoginPopup",

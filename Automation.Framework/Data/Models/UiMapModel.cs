@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using Automation.Framework.Data.Models;
-
-namespace Automation.Framework.Data.Models
+﻿namespace Automation.Framework.Data.Models
 {
     public class UiMapModel
     {
+        public string Root { get; set; } = string.Empty;
+
         public Dictionary<string, Dictionary<string, string>> Pages { get; set; }
             = new();
 

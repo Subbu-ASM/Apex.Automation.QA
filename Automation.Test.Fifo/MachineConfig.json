@@ -4,5 +4,7 @@
   "UiMapPath": "UiMaps\\Fifo.UiMap.json",
   "TestCaseRoot": "TestCases\\Fifo",
   "LogPath": "C:\\MachineLogs\\Fifo.log",
-  "ResultRoot": "TestResults"
+  "ResultRoot": "TestResults",
+  "CommonTestCaseRoot": "..\\..\\Automation.Test.Common\\TestCases",
+  "CommonUiMapPath": "..\\..\\Automation.Test.Common\\UiMaps\\UiMap.json"
 }

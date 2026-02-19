@@ -1,7 +1,8 @@
 {
-    "Pages": {
-        "LoginPage": {
-            "LoginButton": "btnLoginEnable"
-        }
+  "Root": "MainViewRoot",
+  "Pages": {
+    "LoginPage": {
+      "LoginButton": "btnLoginEnable"
     }
+  }
 }

@@ -6,21 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Automation.Framework.Core
-{
+{ 
     public static class WaitHelper
     {
-        public static void Until(Func<bool> condition, int timeoutMs, int pollMs = 200)
+        public static void Until(Func<bool> condition, TimeSpan timeout)
         {
-            var sw = Stopwatch.StartNew();
-            while (sw.ElapsedMilliseconds < timeoutMs)
+            var start = DateTime.Now;
+
+            while (DateTime.Now - start < timeout)
             {
                 if (condition())
                     return;
 
-                Thread.Sleep(pollMs);
+                Thread.Sleep(300);
             }
 
-            throw new TimeoutException("Wait condition failed within timeout.");
+            throw new TimeoutException($"Condition not met within {timeout.TotalSeconds} seconds.");
         }
     }
 

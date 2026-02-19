@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Automation.Framework.Data.Models;
 using Automation.Framework.Engine;
 
@@ -12,7 +9,19 @@ namespace Automation.Framework.Actions
     {
         public void Execute(ActionContext context, TestStepModel step)
         {
-            // wait logic later
+            var timeout = TimeSpan.FromMilliseconds(step.TimeoutMs ?? 10000);
+            var start = DateTime.Now;
+
+            while ((DateTime.Now - start) < timeout)
+            {
+                if (context.UiDriver.IsVisible(context.CurrentPage, step.Target))
+                    return;
+
+                Thread.Sleep(300);
+            }
+
+            throw new TimeoutException(
+                $"Element '{step.Target}' not visible on page '{context.CurrentPage}' after {timeout.TotalSeconds} seconds");
         }
     }
 }

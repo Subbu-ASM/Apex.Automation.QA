@@ -6,23 +6,17 @@ using System.Threading.Tasks;
 
 namespace Automation.Framework.Data.Models
 {
+    
     public class MachineConfig
     {
-        public string MachineName { get; set; } = string.Empty;
-
-        // Path to WPF exe
-        public string AppPath { get; set; } = string.Empty;
-
-        // Path to UiMap.json
-        public string UiMapPath { get; set; } = string.Empty;
-
-        // Folder containing test case json files
-        public string TestCaseRoot { get; set; } = string.Empty;
-
-        // Root folder where results will be stored
-        public string ResultRoot { get; set; } = string.Empty;
-
-        // Optional: app log file path
-        public string LogPath { get; set; } = string.Empty;
+        public string MachineName { get; set; } = "";
+        public string AppPath { get; set; } = "";
+        public string UiMapPath { get; set; } = "";
+        public string CommonUiMapPath { get; set; } = "";
+        public string TestCaseRoot { get; set; } = "";
+        public string CommonTestCaseRoot { get; set; } = "";
+        public string LogPath { get; set; } = "";
+        public string ResultRoot { get; set; } = "";
     }
+
 }

@@ -1,29 +1,45 @@
-﻿using System;
+﻿using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using Automation.Framework.Data.Models;
+using System;
 
 namespace Automation.Framework.UI.Driver
 {
     public class FlaUiDriver : IUiDriver
     {
-        private readonly Window _mainWindow;
+        private readonly AutomationElement _mainWindow;
         private readonly UiMapModel _uiMap;
 
-        public FlaUiDriver(Window mainWindow, UiMapModel uiMap)
+        public FlaUiDriver(AutomationElement mainWindow, UiMapModel uiMap)
         {
-            _mainWindow = mainWindow
-                ?? throw new ArgumentNullException(nameof(mainWindow));
-
-            _uiMap = uiMap
-                ?? throw new ArgumentNullException(nameof(uiMap));
+            _mainWindow = mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
+            _uiMap = uiMap ?? throw new ArgumentNullException(nameof(uiMap));
         }
 
-        // 🔹 CORE RESOLVER (MOST IMPORTANT METHOD)
+
+        // ✅ ROOT RESOLVER (MainWindowRoot)
+        private AutomationElement GetRoot()
+        {
+            if (!string.IsNullOrWhiteSpace(_uiMap.Root))
+            {
+                var root = _mainWindow.FindFirstDescendant(cf =>
+                    cf.ByAutomationId(_uiMap.Root));
+
+                if (root == null)
+                    throw new InvalidOperationException($"Root '{_uiMap.Root}' not found");
+
+                return root;
+            }
+
+            return _mainWindow;
+        }
+
+        // ✅ CORE FIND METHOD (Always uses root)
         private AutomationElement Find(string page, string logicalName)
         {
             var automationId = _uiMap.GetAutomationId(page, logicalName);
 
-            var element = _mainWindow.FindFirstDescendant(cf =>
+            var element = GetRoot().FindFirstDescendant(cf =>
                 cf.ByAutomationId(automationId));
 
             if (element == null)
@@ -33,13 +49,12 @@ namespace Automation.Framework.UI.Driver
             return element;
         }
 
-        // 🔹 ACTIONS
+        // ✅ ACTIONS
 
         public void Click(string page, string logicalName)
         {
-            Find(page, logicalName)
-                .AsButton()
-                ?.Invoke();
+            var element = Find(page, logicalName).AsButton();
+            element.Invoke();
         }
 
         public void SetText(string page, string logicalName, string value)
@@ -57,14 +72,23 @@ namespace Automation.Framework.UI.Driver
 
         public string GetText(string page, string logicalName)
         {
-            var element = Find(page, logicalName);
-            return element.Name ?? element.AsLabel()?.Text ?? string.Empty;
+            return Find(page, logicalName).AsTextBox().Text;
         }
 
         public bool IsVisible(string page, string logicalName)
         {
-            var element = Find(page, logicalName);
-            return element != null && !element.BoundingRectangle.IsEmpty;
+            try
+            {
+                var automationId = _uiMap.GetAutomationId(page, logicalName);
+                var element = GetRoot().FindFirstDescendant(cf =>
+                    cf.ByAutomationId(automationId));
+
+                return !element.IsOffscreen && element.IsEnabled;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

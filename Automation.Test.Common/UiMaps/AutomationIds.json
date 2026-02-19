@@ -1,0 +1,16 @@
+{
+  "LoginPage": {
+    "MainWindow": "MainWindowRoot",
+    "OpenLoginButton": "btnLoginEnable",
+    "LoginPopup": "LoginPopupRoot",
+    "AccessTypeCombo": "AccessTypeComboBox",
+    "PasswordTextBox": "HiddenPasswordBox",
+    "ConfirmLoginButton": "btnlogin",
+    "LoginStatusLabel": "LoginStatusLabel"
+  },
+
+    "DashboardPage": {
+        "LogoutButton": "btnLogout",
+        "MachineStateLabel": "MachineState"
+    }
+}

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Automation.Framework.Actions;
+﻿using Automation.Framework.Actions;
 using Automation.Framework.Data.Models;
-using Automation.Framework.Engine;
-using Automation.Framework.UI.Driver;
-using System.Threading.Tasks;
+using System;
 
 namespace Automation.Framework.Engine
 {
@@ -40,7 +34,7 @@ namespace Automation.Framework.Engine
                 catch (Exception ex)
                 {
                     result.IsPassed = false;
-                    result.FailureStep = step.Action + " → " + step.Target;
+                    result.FailureStep = $"{step.Action} -> {step.Target}";
                     result.Message = ex.Message;
                     break;
                 }
@@ -51,19 +45,21 @@ namespace Automation.Framework.Engine
                 result.Message = "Test executed successfully";
             }
 
-            _context.DbService.SaveTestResult(new TestResultEntity
+            // Optional DB logging (only if DbService exists)
+            if (_context.DbService != null)
             {
-                TestCaseId = result.TestCaseId,
-                TestName = result.TestName,
-                IsPassed = result.IsPassed,
-                FailureStep = result.FailureStep,
-                Message = result.Message,
-                ExecutedAt = DateTime.Now
-            });
+                _context.DbService.SaveTestResult(new TestResultEntity
+                {
+                    TestCaseId = result.TestCaseId,
+                    TestName = result.TestName,
+                    IsPassed = result.IsPassed,
+                    FailureStep = result.FailureStep,
+                    Message = result.Message,
+                    ExecutedAt = DateTime.Now
+                });
+            }
 
             return result;
         }
-
-
     }
 }
