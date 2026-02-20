@@ -1,7 +1,6 @@
 {
     "LoginPage": {
         "OpenLoginButton": "btnLoginEnable",
-        "LoginPopup": "LoginPopupRoot",
         "AccessTypeCombo": "AccessTypeComboBox",
         "PasswordTextBox": "HiddenPasswordBox",
         "ConfirmLoginButton": "btnlogin",

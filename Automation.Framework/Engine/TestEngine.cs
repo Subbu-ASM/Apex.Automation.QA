@@ -10,7 +10,7 @@ namespace Automation.Framework.Engine
 
         public TestEngine(ActionContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public ExecutionResult Execute(TestCaseModel testCase)
@@ -22,7 +22,17 @@ namespace Automation.Framework.Engine
                 IsPassed = true
             };
 
-            _context.CurrentPage = testCase.Page;
+            // ✅ Do NOT override CurrentPage if JSON does not provide Page
+            if (!string.IsNullOrWhiteSpace(testCase.Page))
+            {
+                _context.CurrentPage = testCase.Page;
+            }
+
+            if (string.IsNullOrWhiteSpace(_context.CurrentPage))
+            {
+                throw new InvalidOperationException(
+                    $"CurrentPage is NULL. Set it in TestInitialize or in TestCase JSON.");
+            }
 
             foreach (var step in testCase.Steps)
             {
@@ -45,7 +55,6 @@ namespace Automation.Framework.Engine
                 result.Message = "Test executed successfully";
             }
 
-            // Optional DB logging (only if DbService exists)
             if (_context.DbService != null)
             {
                 _context.DbService.SaveTestResult(new TestResultEntity

@@ -1,8 +1,12 @@
 {
-  "Root": "MainViewRoot",
+  "Root": "MainWindowRoot",
   "Pages": {
     "LoginPage": {
-      "LoginButton": "btnLoginEnable"
+      "OpenLoginButton": "btnLoginEnable",
+      "AccessTypeCombo": "AccessTypeComboBox",
+      "PasswordTextBox": "HiddenPasswordBox",
+      "ConfirmLoginButton": "btnLogin",
+      "LoginStatusLabel": "LoginStatusLabel"
     }
   }
 }

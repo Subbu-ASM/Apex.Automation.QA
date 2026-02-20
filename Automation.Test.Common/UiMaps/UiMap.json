@@ -1,4 +1,5 @@
 ﻿{
+	"Root": "MainWindowRoot",
 	"Pages": {
 		"LoginPage": {
 			"OpenLoginButton": "btnLogin",

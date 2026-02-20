@@ -104,7 +104,7 @@ namespace Automation.Test._2DBarcode.Tests
                 UiDriver = uiDriver,
                 UiMap = mergedUiMap,
                 CurrentPage = "LoginPage",
-                DbService = null // optional
+                DbService = null
             };
 
             _engine = new TestEngine(actionContext);

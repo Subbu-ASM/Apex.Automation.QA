@@ -1,11 +1,8 @@
 ﻿{
-  "TestName": "Login Flow - Admin",
+  "TestCaseId": "LOGIN_001",
+  "TestName": "Admin Login Flow",
+  "Page": "LoginPage",
   "Steps": [
-    {
-      "Action": "WaitForVisible",
-      "Target": "MainWindow",
-      "TimeoutMs": 15000
-    },
     {
       "Action": "Click",
       "Target": "OpenLoginButton"
@@ -18,7 +15,7 @@
     {
       "Action": "SetText",
       "Target": "PasswordTextBox",
-      "Value": "1234"
+      "Value": "Admin@123"
     },
     {
       "Action": "Click",
