@@ -361,3 +361,18 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Automation Framework runtime artifacts
+**/TestResults/
+**/Screenshots/
+**/Reports/
+**/*.html
+**/*.png
+**/*.jpg
+**/*.mp4
+**/*.avi
+**/RunLogs/
+
+
+# Local machine config
+MachineConfig.json
