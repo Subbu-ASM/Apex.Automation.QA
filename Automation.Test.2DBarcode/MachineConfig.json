@@ -1,10 +1,10 @@
 ﻿{
-  "AppPath": "F:\\AutoBuilds\\Debug-1902\\net8.0-windows8.0\\UI.exe",
-  "CommonTestCaseRoot": "H:\\NewAuto\\Automation.Test.Common\\TestCases",
-  "CommonUiMapPath": "H:\\NewAuto\\Automation.Test.Common\\UiMaps\\UiMap.json",
-  "LogPath": "C:\\MachineLogs\\2DBarcode",
+  "AppPath": "CHANGE_ME",
+  "CommonTestCaseRoot": "Automation.Test.Common/TestCases",
+  "CommonUiMapPath": "Automation.Test.Common/UiMaps/UiMap.json",
+  "LogPath": "Logs",
   "MachineName": "2DBarcode",
   "ResultRoot": "TestResults",
   "TestCaseRoot": "TestCases",
-  "UiMapPath": "UiMaps\\UiMap.json"
+  "UiMapPath": "UiMaps/UiMap.json"
 }
