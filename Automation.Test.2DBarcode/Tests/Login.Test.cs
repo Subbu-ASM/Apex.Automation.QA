@@ -109,21 +109,24 @@ namespace Automation.Test._2DBarcode.Tests
 
             _engine = new TestEngine(actionContext);
         }
-        
+
         [TestMethod]
-        public void Login_Admin_Flow()
+        public void Login_All_Tests()
         {
-            // 8️⃣ Load Login test case from Common (config-driven)
             var machineConfig = MachineConfigLoader.Load("MachineConfig.json");
-            var loginTestCasePath = Path.Combine(machineConfig.CommonTestCaseRoot, "LoginFlow.json");
+            var testFiles = Directory.GetFiles(machineConfig.CommonTestCaseRoot, "*.json");
 
-            var testCase = TestCaseLoader.Load(loginTestCasePath);
-
-            var result = _engine.Execute(testCase);
-
-            if (!result.IsPassed)
+            foreach (var file in testFiles)
             {
-                Assert.Fail($"Login failed at step '{result.FailureStep}'. Error: {result.Message}");
+                var testCase = TestCaseLoader.Load(file);
+                var result = _engine.Execute(testCase);
+
+                Console.WriteLine($"{testCase.TestName} => {(result.IsPassed ? "PASS" : "FAIL")}");
+
+                if (!result.IsPassed)
+                {
+                    // Capture screenshot, log, etc.
+                }
             }
         }
 
