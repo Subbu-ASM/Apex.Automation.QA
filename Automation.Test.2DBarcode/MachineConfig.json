@@ -1,5 +1,5 @@
-﻿{
-  "AppPath": "F:\\AutoBuilds\\Debug-1902\\net8.0-windows8.0\\UI.exe",
+{
+  "AppPath": "Change UI.exe path here",
   "CommonTestCaseRoot": "Automation.Test.Common/TestCases",
   "CommonUiMapPath": "Automation.Test.Common/UiMaps/UiMap.json",
   "UiMapPath": "Automation.Test.2DBarcode/UiMaps/UiMap.json",
