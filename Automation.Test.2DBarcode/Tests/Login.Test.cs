@@ -2,6 +2,7 @@
 using Automation.Framework.Data.Json;
 using Automation.Framework.Data.Models;
 using Automation.Framework.Engine;
+using Automation.Framework.Reporting;
 using Automation.Framework.UI.Driver;
 using Automation.Framework.Utilities;
 using FlaUI.Core;
@@ -21,6 +22,9 @@ namespace Automation.Test._2DBarcode.Tests
         private UIA3Automation _automation;
         private TestEngine _engine;
         private string _commonTestCaseRoot;
+        private string _resultRoot;
+        private string _runId;
+        
 
         [TestInitialize]
         public void Setup()
@@ -28,12 +32,19 @@ namespace Automation.Test._2DBarcode.Tests
             // 1️⃣ Load machine config
             var machineConfig = MachineConfigLoader.Load("MachineConfig.json");
 
+            _runId = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+
+            var resultRoot = Path.Combine(AppContext.BaseDirectory, machineConfig.ResultRoot);
+            Directory.CreateDirectory(resultRoot);
+
             // 2️⃣ Resolve solution root (NO hardcoded paths)
             var solutionRoot = PathHelper.GetSolutionRoot();
 
             var commonUiMapPath = Path.Combine(solutionRoot, machineConfig.CommonUiMapPath);
             var machineUiMapPath = Path.Combine(solutionRoot, machineConfig.UiMapPath);
             _commonTestCaseRoot = Path.Combine(solutionRoot, machineConfig.CommonTestCaseRoot);
+            _resultRoot = Path.Combine(AppContext.BaseDirectory, machineConfig.ResultRoot);
+            Directory.CreateDirectory(_resultRoot);
 
             // 3️⃣ Launch application
             _app = Application.Launch(machineConfig.AppPath);
@@ -104,7 +115,8 @@ namespace Automation.Test._2DBarcode.Tests
                 UiDriver = uiDriver,
                 UiMap = mergedUiMap,
                 CurrentPage = "LoginPage",
-                DbService = null
+                DbService = null,
+                ResultRoot = resultRoot
             };
 
             _engine = new TestEngine(actionContext);
@@ -115,28 +127,20 @@ namespace Automation.Test._2DBarcode.Tests
         {
             var testFiles = Directory.GetFiles(_commonTestCaseRoot, "*.json");
 
+            var allResults = new List<ExecutionResult>();
+
             foreach (var file in testFiles)
             {
-                try
-                {
-                    var testCase = TestCaseLoader.Load(file);
-                    var result = _engine.Execute(testCase);
-
-                    Console.WriteLine($"[{testCase.TestName}] => {(result.IsPassed ? "PASS" : "FAIL")}");
-
-                    if (!result.IsPassed)
-                    {
-                        Console.WriteLine($"   ❌ Step: {result.FailureStep}");
-                        Console.WriteLine($"   ❌ Error: {result.Message}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"❌ Fatal error executing test file: {Path.GetFileName(file)}");
-                    Console.WriteLine(ex);
-                }
+                var testCase = TestCaseLoader.Load(file);
+                var result = _engine.Execute(testCase);
+                allResults.Add(result);
             }
+
+            // ✅ Correct usage
+            CsvResultWriter.Write(allResults, _resultRoot,_runId);
+            HtmlResultWriter.Write(allResults, _resultRoot,_runId);
         }
+
 
         [TestCleanup]
         public void Cleanup()

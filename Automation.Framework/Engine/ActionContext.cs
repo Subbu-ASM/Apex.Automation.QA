@@ -17,5 +17,7 @@ namespace Automation.Framework.Engine
         public IDbService DbService { get; set; }
 
         public string CurrentPage { get; set; }
+
+        public string ResultRoot { get; set; }
     }
 }

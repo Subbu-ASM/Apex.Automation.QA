@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 {
   "AppPath": "Change UI.exe path here",
+=======
+﻿{
+  "AppPath": "F:\\AutoBuilds\\Debug-2502\\net8.0-windows8.0\\UI.exe",
+>>>>>>> Added Changes to write .csv and html report
   "CommonTestCaseRoot": "Automation.Test.Common/TestCases",
   "CommonUiMapPath": "Automation.Test.Common/UiMaps/UiMap.json",
   "UiMapPath": "Automation.Test.2DBarcode/UiMaps/UiMap.json",

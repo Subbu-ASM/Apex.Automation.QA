@@ -5,7 +5,8 @@
 			"OpenLoginButton": "btnLogin",
 			"PasswordTextBox": "txtPassword",
 			"ConfirmLoginButton": "btnConfirm",
-			"LoginStatusLabel": "lblStatus"
+			"LoginStatusLabel": "lblStatus",
+			"LogoutButton": "btnLogout"
 		}
 	}
 }
