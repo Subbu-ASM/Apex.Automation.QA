@@ -32,19 +32,50 @@ namespace Automation.Test._2DBarcode.Tests
             // 1️⃣ Load machine config
             var machineConfig = MachineConfigLoader.Load("MachineConfig.json");
 
+            // 2️⃣ Get project root (Automation.Test.2DBarcode)
+            var projectRoot = Directory
+                .GetParent(AppContext.BaseDirectory)!   // bin\Debug\net8.0-windows
+                .Parent!                                // Debug
+                .Parent!                                // bin
+                .Parent!                                // Automation.Test.2DBarcode
+                .FullName;
+
+            // 3️⃣ Get solution root (H:\NewAuto)
+            var solutionRoot = Directory.GetParent(projectRoot)!.FullName;
+
+            // 4️⃣ Build correct paths
+
+            var commonUiMapPath = Path.Combine(
+                solutionRoot,
+                "Automation.Test.Common",
+                "UiMaps",
+                "UiMap.json"
+            );
+
+            var machineUiMapPath = Path.Combine(
+                projectRoot,
+                "UiMaps",
+                "UiMap.json"
+            );
+
+            _commonTestCaseRoot = Path.Combine(
+                solutionRoot,
+                "Automation.Test.Common",
+                "TestCases"
+            );
+
+            // 5️⃣ Create machine-specific result folder
             _runId = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
-            var resultRoot = Path.Combine(AppContext.BaseDirectory, machineConfig.ResultRoot);
-            Directory.CreateDirectory(resultRoot);
+            _resultRoot = Path.Combine(
+                projectRoot,
+                machineConfig.ResultRoot,
+                _runId
+            );
 
-            // 2️⃣ Resolve solution root (NO hardcoded paths)
-            var solutionRoot = PathHelper.GetSolutionRoot();
-
-            var commonUiMapPath = Path.Combine(solutionRoot, machineConfig.CommonUiMapPath);
-            var machineUiMapPath = Path.Combine(solutionRoot, machineConfig.UiMapPath);
-            _commonTestCaseRoot = Path.Combine(solutionRoot, machineConfig.CommonTestCaseRoot);
-            _resultRoot = Path.Combine(AppContext.BaseDirectory, machineConfig.ResultRoot);
             Directory.CreateDirectory(_resultRoot);
+
+            _commonTestCaseRoot = Path.Combine(solutionRoot, machineConfig.CommonTestCaseRoot);
 
             // 3️⃣ Launch application
             _app = Application.Launch(machineConfig.AppPath);
@@ -73,7 +104,7 @@ namespace Automation.Test._2DBarcode.Tests
                 TimeSpan.FromSeconds(30)
             );
 
-            // 6️⃣ Load Common UiMap (Login UI)
+            //// 6️⃣ Load Common UiMap (Login UI)
             var commonUiMapJson = File.ReadAllText(commonUiMapPath);
             var commonUiMap = JsonSerializer.Deserialize<UiMapModel>(commonUiMapJson)
                               ?? throw new InvalidOperationException("Common UiMap.json invalid");
@@ -116,11 +147,13 @@ namespace Automation.Test._2DBarcode.Tests
                 UiMap = mergedUiMap,
                 CurrentPage = "LoginPage",
                 DbService = null,
-                ResultRoot = resultRoot
+                ResultRoot = _resultRoot
             };
 
             _engine = new TestEngine(actionContext);
+
         }
+
 
         [TestMethod]
         public void Login_All_Tests()

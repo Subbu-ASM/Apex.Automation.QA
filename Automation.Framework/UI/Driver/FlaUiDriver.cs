@@ -1,6 +1,7 @@
-﻿using FlaUI.Core;
-using FlaUI.Core.AutomationElements;
+﻿using Automation.Framework.Core;
 using Automation.Framework.Data.Models;
+using FlaUI.Core;
+using FlaUI.Core.AutomationElements;
 using System;
 
 namespace Automation.Framework.UI.Driver
@@ -38,6 +39,8 @@ namespace Automation.Framework.UI.Driver
         private AutomationElement Find(string page, string logicalName)
         {
             var automationId = _uiMap.GetAutomationId(page, logicalName);
+            
+            
 
             var element = GetRoot().FindFirstDescendant(cf =>
                 cf.ByAutomationId(automationId));
@@ -45,7 +48,7 @@ namespace Automation.Framework.UI.Driver
             if (element == null)
                 throw new Exception(
                     $"Element not found | Page: {page}, Target: {logicalName}, AutomationId: {automationId}");
-
+    
             return element;
         }
 
@@ -63,11 +66,37 @@ namespace Automation.Framework.UI.Driver
             textBox.Text = string.Empty;
             textBox.Enter(value);
         }
-
+       
         public void SelectCombo(string page, string logicalName, string value)
         {
             var combo = Find(page, logicalName).AsComboBox();
-            combo.Select(value);
+
+            if (combo == null)
+                throw new InvalidOperationException($"Target '{logicalName}' is not a ComboBox");
+            combo.Expand();
+            //Thread.Sleep(500); // Wait for items to load (consider better wait strategy)
+            WaitHelper.Until(() => combo.Items.Length > 0, TimeSpan.FromSeconds(3));
+
+            // Select by index
+            if (int.TryParse(value, out int index))
+            {
+                if (index < 0 || index >= combo.Items.Length)
+                    throw new IndexOutOfRangeException(
+                        $"Combo index {index} out of range (0 - {combo.Items.Length - 1})");
+
+                combo.Select(index);
+                return;
+            }
+
+            // Select by visible text
+            var item = combo.Items
+                .FirstOrDefault(i => i.Text.Equals(value, StringComparison.OrdinalIgnoreCase));
+
+            if (item == null)
+                throw new InvalidOperationException(
+                    $"Combo item '{value}' not found in '{logicalName}'");
+
+            item.Select();
         }
 
         public string GetText(string page, string logicalName)

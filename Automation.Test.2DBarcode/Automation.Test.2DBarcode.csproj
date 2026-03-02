@@ -20,10 +20,14 @@
 
   <ItemGroup>
     <None Remove="MachineConfig.json" />
+    <None Remove="UiMaps\AutomationIds.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="MachineConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UiMaps\AutomationIds.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UiMaps\UiMap.json">

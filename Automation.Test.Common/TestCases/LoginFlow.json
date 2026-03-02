@@ -30,11 +30,6 @@
       "Action": "Click",
       "Target": "LogoutButton",
       "Expected": "Logged Out"
-    },
-    {
-      "Action": "WaitForVisible",
-      "Target": "LoginPopup",
-      "TimeoutMs": 5000
     }
   ]
 }

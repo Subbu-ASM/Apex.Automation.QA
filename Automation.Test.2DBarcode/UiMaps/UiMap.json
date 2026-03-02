@@ -1,5 +1,5 @@
 {
-  "Root": "MainWindowRoot",
+  "Root": "MainviewRoot",
   "Pages": {
     "LoginPage": {
       "OpenLoginButton": "btnLoginEnable",
